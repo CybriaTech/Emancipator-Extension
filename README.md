@@ -21,3 +21,7 @@ Emancipator is an experimental form of unblocking that force disables managed ex
 - Locate the `emancipator.zip` file and right click it (Tap the touchpad with 2 fingers), once the context menu appears, locate and press <b>Extract all</b>.
 - After that, open the extracted folder and select it, press the <b>Select folder</b> button and let the extension install.
 - If your web filtering extension immediately uninstalls, you did it!
+
+# 😎Extra Info
+
+If you turn off the extension and turn it back on again, Emancipator will not turn off the extensions, to fix that, refresh the extension.
