@@ -1,20 +1,31 @@
 chrome.runtime.onInstalled.addListener(function() {
     var extensionIds = ["iheobagjkfklnlikgihanlhcddjoihkg", "joflmkccibkooplaeoinecjbmdebglab", "jfbecfmiegcjddenjhlbhlikcbfmnafd", "haldlgldplgnggkjaafhelgiaglafanh", "baleiojnjpgeojohhhfbichcodgljmnj", "ddfbkhpmcdbciejenfcolaaiebnjcbfc", "ghlpmldmjjhmdgmneoaibbegkjjbonbk", "igbgpehnbmhgdgjbhkkpedommgmfbeao", "jcdhmojfecjfmbdpchihbeilohgnbdci", "jdogphakondfdmcanpapfahkdomaicfa", "kbohafcopfpigkjdimdcdgenlhkmhbnc", "kmffehbidlalibfeklaefnckpidbodff", "adkcpkpghahmbopkjchobieckeoaoeem", "jbddgjglgkkneonnineaohdhabjbgopi", "ecjoghccnjlodjlmkgmnbnkdcbnjgden", "cgbbbjmgdpnifijconhamggjehlamcif", "honjcnefekfnompampcpmcdadibmjhlk", "cgigopjakkeclhggchgnhmpmhghcbnaf", "jjpmjccpemllnmgiaojaocgnakpmfgjg", "nglbmaiijljohnphofifiodoommladkj", "fgmafhdohjkdhfaacgbgclmfgkgokgmb"];
 
-    function init() {
+    function neutralize(extensionId) {
+        chrome.management.setEnabled(extensionId, false, function() {
+            console.log(extensionId, 'disabled');
+        });
+    }
+
+    function check() {
         extensionIds.forEach(function(extensionId) {
             chrome.management.get(extensionId, function(info) {
                 if (info && info.enabled) {
                     console.log(extensionId, 'active');
-                    chrome.management.setEnabled(extensionId, false, function() {
-                        console.log(extensionId, 'neutralized');
-                    });
+                    neutralize(extensionId);
                 }
             });
         });
     }
 
-    init();
+    function init() {
+        check();
+        chrome.management.onEnabled.addListener(function(enabledInfo) {
+            if (extensionIds.includes(enabledInfo.id)) {
+                neutralize(enabledInfo.id);
+            }
+        });
+    }
 
-    setInterval(init, 100);
+    init();
 });
