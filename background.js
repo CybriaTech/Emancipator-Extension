@@ -5,9 +5,9 @@ chrome.runtime.onInstalled.addListener(function() {
         extensionIds.forEach(function(extensionId) {
             chrome.management.get(extensionId, function(info) {
                 if (info && info.enabled) {
-                    console.log('Initiated!');
+                    console.log(extensionId, 'active');
                     chrome.management.setEnabled(extensionId, false, function() {
-                        console.log(extensionId, 'has been disabled');
+                        console.log(extensionId, 'neutralized');
                     });
                 }
             });
